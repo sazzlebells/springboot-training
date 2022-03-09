@@ -1,17 +1,20 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.StaffDto;
+import com.example.demo.dto.UpdateBasketRequestDto;
 import com.example.demo.entity.BasketEntity;
 import com.example.demo.entity.StaffEntity;
 import com.example.demo.repository.StaffRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StaffService {
-    StaffRepository repository;
+    StaffRepository staffRepository;
 
     public StaffService(StaffRepository repository) {
-        this.repository = repository;
+        this.staffRepository = repository;
     }
 
     public StaffEntity add(StaffDto request) {
@@ -19,7 +22,16 @@ public class StaffService {
         staff.setName(request.getName());
         staff.setBasket(new BasketEntity());
 
-        return repository.save(staff);
+        return staffRepository.save(staff);
     }
+
+    public List<StaffEntity> fetchAll(){
+        return (List<StaffEntity>) staffRepository.findAll();
+    }
+
+    public StaffEntity fetchById(Long id) {
+        return staffRepository.findById(id).orElse(new StaffEntity());
+    }
+
 
 }
