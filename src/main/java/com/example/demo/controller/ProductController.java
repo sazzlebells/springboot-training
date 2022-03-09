@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.CommonResponse;
 import com.example.demo.dto.ProductDto;
+import com.example.demo.dto.TransactionDto;
 import com.example.demo.dto.UpdateStockRequestDto;
 import com.example.demo.entity.ProductEntity;
+import com.example.demo.service.BasketService;
 import com.example.demo.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +45,10 @@ public class ProductController {
     public CommonResponse deleteProduct(@PathVariable("id") long id) {
         productService.delete(id);
         return new CommonResponse("Successfully delete product");
+    }
+
+    @PostMapping("/buy")
+    public CommonResponse buyProduct(@RequestBody TransactionDto request){
+        return new CommonResponse(productService.buyProduct(request));
     }
 }
