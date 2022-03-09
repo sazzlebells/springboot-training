@@ -28,7 +28,7 @@ public class ProductService {
         return repository.save(product);
     }
 
-    public List<ProductEntity> fetchAll(boolean isAvailableOnly) {
+    public List<ProductEntity> fetchAll(boolean isAvailableOnly, long priceMax) {
         logger.trace("A TRACE Message");
         logger.debug("A DEBUG Message");
         logger.info("An INFO Message");
@@ -36,11 +36,16 @@ public class ProductService {
         logger.error("An ERROR Message");
 
         if (isAvailableOnly) {
-            return repository.findByStockGreaterThan(0);
+            return repository.findByStockGreaterThanAndPriceLessThanEqual(0, priceMax);
         } else {
             //fetch all
-            return (List<ProductEntity>) repository.findAll();
+//            return (List<ProductEntity>) repository.findAll();
+            return fetchPriceLessThanEqual(priceMax);
         }
+    }
+
+    public List<ProductEntity> fetchPriceLessThanEqual(long priceMax){
+        return (List<ProductEntity>) repository.findByPriceLessThanEqual(priceMax);
     }
 
     public ProductEntity find(long id) {
